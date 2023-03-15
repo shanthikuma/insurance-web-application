@@ -44,7 +44,7 @@ node{
         sh "${dockerCMD} build -t shubhamkushwah123/insure-me:${tagName} ."
     }
     
-    stage('Pushing it ot the DockerHub'){
+    stage('Pushing it ot the Docker Hub'){
         echo 'Pushing the docker image to DockerHub'
         withCredentials([string(credentialsId: 'dock-password', variable: 'dockerHubPassword')]) {
         sh "${dockerCMD} login -u shubhamkushwah123 -p ${dockerHubPassword}"
