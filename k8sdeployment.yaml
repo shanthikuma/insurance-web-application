@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: manjunathachar-deploy
+  labels:
+    app: insurance_app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: insurance_app
+  template:
+    metadata:
+      labels:
+        app: insurance_app
+    spec:
+      containers:
+      - name: insurance-container
+        image: manjunathachar/insurance_app:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: manjunathachar-np-service
+  labels:
+    app: insurance_app
+spec:
+  selector:
+    app: insurance_app
+  type: NodePort
+  ports:
+  - nodePort: 31224
+    port: 9091
+    targetPort: 9091
