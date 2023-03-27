@@ -28,9 +28,9 @@ pipeline {
         stage("Docker build") {
             steps {
                 sh 'docker version'
-                sh "docker build -t manjunathachar/insurance_app:${BUILD_NUMBER} ."
+                sh "docker build -t manjunathachar/insuranceapp:${BUILD_NUMBER} ."
                 sh 'docker image list'
-                sh "docker tag manjunathachar/insurance_app:${BUILD_NUMBER} manjunathachar/insurance_app:latest"
+                sh "docker tag manjunathachar/insuranceapp:${BUILD_NUMBER} manjunathachar/insuranceapp:latest"
             }
         }
         stage('Login to Docker Hub') {
@@ -49,7 +49,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             steps {
-                sh "docker push manjunathachar/insurance_app:latest"
+                sh "docker push manjunathachar/insuranceapp:latest"
             }
         }
         stage('Approve - Deployment to Kubernetes Cluster') {
