@@ -23,9 +23,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: manjunathachar-service
+  name: insurance-service
   labels:
-    app: insurance_app
+    app: insuranceapp
 spec:
   selector:
     app: insuranceapp
