@@ -18,7 +18,7 @@ spec:
       - name: insurance-container
         image: manjunathachar/insuranceapp:latest
         ports:
-        - containerPort: 8083
+        - containerPort: 8081
 ---
 apiVersion: v1
 kind: Service
@@ -32,5 +32,5 @@ spec:
   type: NodePort
   ports:
   - nodePort: 31994
-    port: 8083
-    targetPort: 8083
+    port: 8081
+    targetPort: 8081
