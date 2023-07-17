@@ -1,15 +1,15 @@
 pipeline {
-    agent any 
+    agent any
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "maven3.9.3"
     }
 
-    environment {    
+    environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerloginid')
-    } 
-    
+    }
+
     stages {
         stage('SCM Checkout') {
             steps {
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 //----------------send an approval prompt-------------
                 script {
-                   env.APPROVED_DEPLOY = input message: 'User input required. Choose "yes" to approve or "Abort" to reject', ok: 'Yes', submitterParameter: 'APPROVER'
+                    env.APPROVED_DEPLOY = input message: 'User input required. Choose "yes" to approve or "Abort" to reject', ok: 'Yes', submitterParameter: 'APPROVER'
                 }
                 //-----------------end approval prompt------------
             }
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 //----------------send an approval prompt-----------
                 script {
-                   env.APPROVED_DEPLOY_KUBE = input message: 'User input required. Choose "yes" to approve or "Abort" to reject', ok: 'Yes', submitterParameter: 'APPROVER_KUBE'
+                    env.APPROVED_DEPLOY_KUBE = input message: 'User input required. Choose "yes" to approve or "Abort" to reject', ok: 'Yes', submitterParameter: 'APPROVER_KUBE'
                 }
                 //-----------------end approval prompt------------
             }
@@ -62,7 +62,8 @@ pipeline {
         stage('Deploy to Kubernetes Cluster') {
             steps {
                 script {
-sshPublisher(publishers: [sshPublisherDesc(configName: 'kumaster', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f k8sdeployment.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'k8sdeployment.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])                }
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'kumaster', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f k8sdeployment.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'k8sdeployment.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                }
             }
         }
     }
