@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
-        maven "maven-3.8.7"
+        maven "maven3.9.3"
     }
 
     environment {    
@@ -14,7 +14,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 // Get some code from a GitHub repository
-                git url: 'https://github.com/manju65char/star-agile-insurance-project.git'
+                git url: 'https://github.com/shanthikuma/insurance-web-application.git'
             }
         }
         stage('Maven Build') {
@@ -26,9 +26,9 @@ pipeline {
         stage("Docker build") {
             steps {
                 sh 'docker version'
-                sh "docker build -t manjunathachar/insuranceapp:${BUILD_NUMBER} ."
+                sh "docker build -t skbrnrgr/insuranceapp:${BUILD_NUMBER} ."
                 sh 'docker image list'
-                sh "docker tag manjunathachar/insuranceapp:${BUILD_NUMBER} manjunathachar/insuranceapp:latest"
+                sh "docker tag skbrnrgr/insuranceapp:${BUILD_NUMBER} skbrnrgr/insuranceapp:latest"
             }
         }
         stage('Login to Docker Hub') {
@@ -47,7 +47,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             steps {
-                sh "docker push manjunathachar/insuranceapp:latest"
+                sh "docker push skbrnrgr/insuranceapp:latest"
             }
         }
         stage('Approve - Deployment to Kubernetes Cluster') {
@@ -62,8 +62,7 @@ pipeline {
         stage('Deploy to Kubernetes Cluster') {
             steps {
                 script {
-sshPublisher(publishers: [sshPublisherDesc(configName: 'kube_masternode', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f k8sdeployment.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'k8sdeployment.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-                }
+sshPublisher(publishers: [sshPublisherDesc(configName: 'kumaster', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f k8sdeployment.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'k8sdeployment.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])                }
             }
         }
     }
