@@ -13,8 +13,8 @@ pipeline {
     stages {
         stage('SCM Checkout') {
             steps {
-                // Get some code from a GitHub repository
-                git url: 'https://github.com/shanthikuma/insurance-web-application.git'
+                // Checkout the repository into the workspace
+                checkout scm
             }
         }
         stage('Maven Build') {
