@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: insurance-container
-        image: manjunathachar/insuranceapp:latest
+        image: skbrnrgr/insuranceapp:latest
         ports:
         - containerPort: 8081
 ---
